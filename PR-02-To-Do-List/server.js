@@ -1,9 +1,9 @@
 const express = require('express');
-const app = express();
+const server = express();
 
-app.use(express.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
+server.use(express.urlencoded({ extended: true }));
+server.set('view engine', 'ejs');
+server.use(express.static('public'));
 
 let todos = [
     { title: 'Buy Groceries', content: 'Milk, Bread, jam', priority: 'One', date: '2025-07-22' },
@@ -11,11 +11,11 @@ let todos = [
     { title: 'Exercise', content: '30-minute run in the evening', priority: 'Three', date: '2025-07-24' }
 ];
 
-app.get('/', (req, res) => {
+server.get('/', (req, res) => {
     res.render('index', { todos, message: null });
 });
 
-app.post('/add', (req, res) => {
+server.post('/add', (req, res) => {
     const { title, content, priority, date } = req.body;
     if (title && content && priority && date) {
         todos.push({ title, content, priority, date });
@@ -23,7 +23,7 @@ app.post('/add', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/delete', (req, res) => {
+server.post('/delete', (req, res) => {
     const index = req.body.index;
     if (index !== undefined) {
         todos.splice(index, 1);
@@ -31,7 +31,7 @@ app.post('/delete', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/edit/:index', (req, res) => {
+server.get('/edit/:index', (req, res) => {
     const index = req.params.index;
     const todo = todos[index];
     if (todo) {
@@ -41,7 +41,7 @@ app.get('/edit/:index', (req, res) => {
     }
 });
 
-app.post('/edit', (req, res) => {
+server.post('/edit', (req, res) => {
     const { index, title, content, priority, date } = req.body;
     if (todos[index]) {
         todos[index].title = title;
@@ -52,6 +52,6 @@ app.post('/edit', (req, res) => {
     res.redirect('/');
 });
 
-app.listen(8000, () => {
+server.listen(8000, () => {
     console.log('Server is running at http://localhost:8000');
 });
