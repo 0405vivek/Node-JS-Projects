@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../Extra/logo2.png">
+  <title>Edit Movie</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #fff;
+      color: #333;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px 0;
+    }
+
+    .navbar {
+      background-color: #eb4e62 !important;
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+      color: white !important;
+      font-weight: 500;
+    }
+
+    .form-container {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    h2 {
+      color: #eb4e62;
+      font-weight: bold;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #444;
+    }
+
+    .form-control,
+    .form-select {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      color: #333;
+      padding: 10px;
+      border-radius: 8px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #eb4e62;
+      box-shadow: 0 0 8px rgba(235, 78, 98, 0.3);
+      background-color: #fff;
+    }
+
+    .btn-submit {
+      background-color: #eb4e62;
+      border: none;
+      font-weight: bold;
+      color: #fff;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #d33b4e;
+      transform: scale(1.03);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container" style="max-width:1220px;">
+      <a class="navbar-brand bms-outline-text" href="/">BookMyShow</a>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width:1220px;">
+    <div class="form-container mt-5">
+      <h2 class="mb-4 text-center">✏️ Edit Movie</h2>
+
+      <form action="/movies/edit/<%= movie._id %>" method="POST" enctype="multipart/form-data">
+
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" name="title" class="form-control" value="<%= movie.title %>" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Director</label>
+          <input type="text" name="director" class="form-control" value="<%= movie.director %>" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Genre</label>
+          <select name="genre" class="form-select" required>
+            <option value="">-- Select Genre --</option>
+           <option <%=movie.genre.includes('Action') ? 'selected' : '' %>>Action</option>
+            <option <%=movie.genre.includes('Comedy') ? 'selected' : '' %>>Comedy</option>
+            <option <%=movie.genre.includes('Drama') ? 'selected' : '' %>>Drama</option>
+            <option <%=movie.genre.includes('Thriller') ? 'selected' : '' %>>Thriller</option>
+            <option <%=movie.genre.includes('Romance') ? 'selected' : '' %>>Romance</option>
+            <option <%=movie.genre.includes('Horror') ? 'selected' : '' %>>Horror</option>
+            <option <%=movie.genre.includes('Science-Fiction') ? 'selected' : '' %>>Science Fiction</option>
+            <option <%=movie.genre.includes('Animation') ? 'selected' : '' %>>Animation</option>
+            <option <%=movie.genre.includes('Documentary') ? 'selected' : '' %>>Documentary</option>
+            <option <%= !(Array.isArray(movie.genre) ? movie.genre : [])
+    .some(g => movie.genre && movie.genre.includes(g)) ? 'selected' : '' %>>Other</option>
+
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Release Date</label>
+          <input type="date" name="releaseDate" class="form-control"
+            value="<%= movie.releaseDate ? movie.releaseDate.toISOString().split('T')[0] : '' %>">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Duration (mins)</label>
+          <input type="number" name="duration" class="form-control" value="<%= movie.duration %>">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Rating</label>
+          <input type="number" step="0.1" name="rating" class="form-control" value="<%= movie.rating %>">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-control" rows="4"><%= movie.description || "" %></textarea>
+        </div>
+
+
+        <div class="mb-3">
+          <label class="form-label">Language</label>
+          <select name="language" class="form-select" required>
+            <option value="">-- Select Language --</option>
+            <option <%=movie.language==='English' ? 'selected' : '' %>>English</option>
+            <option <%=movie.language==='Hindi' ? 'selected' : '' %>>Hindi</option>
+            <option <%=movie.language==='Tamil' ? 'selected' : '' %>>Tamil</option>
+            <option <%=movie.language==='Telugu' ? 'selected' : '' %>>Telugu</option>
+            <option <%=movie.language==='Kannada' ? 'selected' : '' %>>Kannada</option>
+            <option <%=movie.language==='Malayalam' ? 'selected' : '' %>>Malayalam</option>
+            <option <%=movie.language==='Bengali' ? 'selected' : '' %>>Bengali</option>
+            <option <%=movie.language==='Punjabi' ? 'selected' : '' %>>Punjabi</option>
+            <option <%=movie.language==='Gujarati' ? 'selected' : '' %>>Gujarati</option>
+            <option
+              <%=!['English','Hindi','Tamil','Telugu','Kannada','Malayalam','Bengali','Punjabi','Gujarati'].includes(movie.language)
+              ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+
+        <% if (movie.poster) { %>
+          <div class="mb-3">
+            <p class="form-label">Current Poster:</p>
+            <img src="/uploads/<%= movie.poster %>" width="150" class="mb-2 rounded">
+          </div>
+          <% } %>
+
+            <div class="mb-3">
+              <label class="form-label">Change Poster</label>
+              <input type="file" name="poster" class="form-control" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-submit w-100">Update Movie</button>
+      </form>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

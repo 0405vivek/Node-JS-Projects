@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../Extra/logo2.png">
+  <title><%= movie.title %> - Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #fff;
+      color: #333;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #eb4e62 !important;
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+      color: white !important;
+      font-weight: 500;
+    }
+
+    .movie-banner {
+      width: 100%;
+      height: 70%;
+      object-fit: contain;
+      border-radius: 10px;
+      /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); */
+    }
+
+    .movie-details {
+      padding: 20px;
+    }
+
+    .movie-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .movie-meta p {
+      margin: 5px 0;
+      font-size: 1rem;
+    }
+
+    .btn-primary-custom {
+      background-color: #eb4e62;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+
+    .btn-primary-custom:hover {
+      background-color: #d33b4e;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container" style="max-width:1220px;">
+      <a class="navbar-brand bms-outline-text" href="/">BookMyShow</a>
+    </div>
+  </nav>
+
+  <div class="container mt-4" style="max-width:1220px;">
+    <div class="row g-4">
+      <!-- Left Column - Movie Banner -->
+      <div class="col-12 col-md-6">
+        <% if (movie.poster) { %>
+          <img src="<%= movie.poster.startsWith('http') ? movie.poster : '/uploads/' + movie.poster %>" alt="Poster" class="movie-banner">
+        <% } else { %>
+          <img src="https://via.placeholder.com/500x700?text=No+Image" alt="No poster" class="movie-banner">
+        <% } %>
+      </div>
+
+      <!-- Right Column - Movie Details -->
+      <div class="col-12 col-md-6 movie-details">
+        <h1 class="movie-title"><%= movie.title || "Untitled" %></h1>
+        <div class="movie-meta">
+          <p><strong>Director:</strong> <%= movie.director || "N/A" %></p>
+          <p><strong>Genre:</strong> 
+            <%= Array.isArray(movie.genre) ? movie.genre.join(", ") : (movie.genre || "N/A") %>
+          </p>
+          <p><strong>Release Date:</strong> 
+            <%= movie.releaseDate ? new Date(movie.releaseDate).toDateString() : "N/A" %>
+          </p>
+          <p><strong>Duration:</strong> <%= movie.duration ? movie.duration + " mins" : "N/A" %></p>
+          <p><strong>Rating:</strong> <%= movie.rating || "N/A" %></p>
+          <p><strong>Language:</strong> <%= movie.language || "N/A" %></p>
+        </div>
+
+        <div class="mt-3">
+          <p><strong>Description:</strong></p>
+          <p><%= movie.description || "No description available." %></p>
+        
+        </div>
+        
+
+        <!-- <a href="/movies/<%= movie._id %>/reserve" class="btn btn-primary-custom mt-3">
+          Reserve Seats
+        </a> -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
